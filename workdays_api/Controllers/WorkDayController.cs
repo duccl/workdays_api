@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Nager.Date;
 using Microsoft.Extensions.Logging;
@@ -26,8 +23,8 @@ namespace workdays_api.Controllers
                    date.DayOfWeek != DayOfWeek.Sunday;        
         }
 
-        private Models.WorkDay FindWorkDay(int days){
-            DateTime work_day = DateTime.Now;
+        private Models.WorkDay FindWorkDay(int days,string specific_date){
+            DateTime work_day = specific_date != "" ? DateTime.Parse(specific_date) : DateTime.Now;
             int absolute_days_value = System.Math.Abs(days);
             bool is_past = days < 0;
             while(absolute_days_value != 0){
@@ -41,16 +38,16 @@ namespace workdays_api.Controllers
             return work_day_class_instance;
         }
 
-        [HttpGet("before/{past_days}")]
-        public Models.WorkDay GetPastDays(int past_days)
+        [HttpGet("before")]
+        public Models.WorkDay GetPastDays(int past_days,string specific_date = "")
         {
-            return FindWorkDay(-past_days);
+            return FindWorkDay(-past_days,specific_date);
         }
 
-        [HttpGet("after/{next_days}")]
-        public Models.WorkDay GetNextDays(int next_days)
+        [HttpGet("after")]
+        public Models.WorkDay GetNextDays(int next_days,string specific_date = "")
         {
-            return FindWorkDay(next_days);
+            return FindWorkDay(next_days,specific_date);
         }
     }
 }
