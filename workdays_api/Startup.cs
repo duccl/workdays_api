@@ -18,6 +18,9 @@ namespace workdays_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(swaggerOptions => swaggerOptions.SwaggerDoc("v1", 
+                                    new Microsoft.OpenApi.Models.OpenApiInfo {Title= "workdays_api", Version="v1"}
+                                   ));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -25,6 +28,11 @@ namespace workdays_api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(connectionOptions =>{
+                    connectionOptions.SwaggerEndpoint("/swagger/v1/swagger.json","workdays_api v1");
+                    connectionOptions.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseHttpsRedirection();
