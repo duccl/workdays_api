@@ -28,13 +28,12 @@ namespace workdays_api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(connectionOptions =>{
-                    connectionOptions.SwaggerEndpoint("/swagger/v1/swagger.json","workdays_api v1");
-                    connectionOptions.RoutePrefix = string.Empty;
-                });
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(connectionOptions =>{
+                connectionOptions.SwaggerEndpoint("/swagger/v1/swagger.json","workdays_api v1");
+                connectionOptions.RoutePrefix = string.Empty;
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();
